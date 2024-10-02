@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresa Tu Peso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f79bf8, #b963f3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            position: relative;
+        }
+
+        h1 {
+            color: #ff61f7;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff61f7;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #bcbaff;
+        }
+
+        .image-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            width: 150%;
+            border-radius: 10px;
+        }
+
+        .rotate {
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>INGRESA TU PESO EN KG:</h1>
+        <form id="pesoForm">
+            <!-- Input actualizado para permitir solo números -->
+            <input type="text" name="peso" id="peso" placeholder="Ejemplo: 70" inputmode="numeric" pattern="[0-9]*">
+            <input type="submit" value="Enviar">
+        </form>
+        <!-- Contenedor de la imagen -->
+        <div class="image-container" id="imageContainer">
+            <img src="img/no gordas.webp" alt="Advertencia de peso" id="alertImage">
+        </div>
+    </div>
+
+    <!-- Reproducción de audio -->
+    <audio id="myAudio">
+        <source src="audio/v09044g40000clh4b4fog65kq7i489qg.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const form = document.getElementById('pesoForm');
+        const pesoInput = document.getElementById('peso');
+        const audio = document.getElementById('myAudio');
+        const imageContainer = document.getElementById('imageContainer');
+        const alertImage = document.getElementById('alertImage');
+
+        pesoInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const peso = parseFloat(pesoInput.value);
+
+            if (peso > 59) {
+                imageContainer.style.display = 'block';
+                alertImage.classList.add('rotate');
+                audio.play();
+                audio.onended = () => {
+                    alert("Advertencia: NO GORDAS");
+                };
+            } else {
+                alert("OK, todo bien con tu peso.");
+            }
+        });
+    </script>
+</body>
+</html>
